@@ -3,11 +3,9 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // ** Constant Imports
-import { metaDetails } from '../../constants/meta'
 import { strings } from '../../constants/strings'
 
 // ** Components Imports
-import HeadPage from '../../components/HeadPage/HeadPage'
 import BackGroundImage from '../../components/BackgroundImage/BackgroundImage'
 
 // ** MUI Imports
@@ -78,11 +76,6 @@ const Login = () => {
 
   return (
     <>
-      <HeadPage
-        mainTitle={metaDetails?.loginPage?.title}
-        metaTitle={metaDetails?.loginPage?.title}
-        metaDescription={metaDetails?.loginPage?.description}
-      />
       <Box
         display='flex'
         justifyContent='center'
