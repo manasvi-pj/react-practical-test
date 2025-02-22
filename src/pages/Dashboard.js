@@ -9,7 +9,9 @@ import { addProduct, deleteProduct, toggleProductStatus, updateProduct, viewProd
 // ** MUI Imports
 import { DataGrid } from '@mui/x-data-grid'
 import { Button, Box, TextField, Switch, IconButton } from '@mui/material'
-import { Container } from '@mui/system'
+
+// ** Constant Imports
+import { strings } from '../constants/strings'
 
 // ** Component Imports
 import ProductModal from '../components/ProductForm'
@@ -28,7 +30,7 @@ const Dashboard = () => {
   const [editData, setEditData] = useState(null)
   const [searchText, setSearchText] = useState('')
   const [page, setPage] = useState(0)
-  const [pageSize, setPageSize] = useState(5)
+  const [pageSize, setPageSize] = useState(10)
 
   const searchTasks = (products, searchQuery) => {
     // ** If search query is empty, return all products
@@ -76,15 +78,15 @@ const Dashboard = () => {
   }
 
   const columns = [
-    { field: 'no', headerName: 'Sr No.', width: 90, sortable: false },
-    { field: 'product_name', headerName: 'Product Name', width: 170, sortable: false },
-    { field: 'sku', headerName: 'SKU', width: 150, sortable: false },
-    { field: 'price', headerName: 'Price', width: 90 },
-    { field: 'stock_quantity', headerName: 'Stock', width: 90 },
+    { field: 'no', headerName: 'Sr No.', width: 120, sortable: false },
+    { field: 'product_name', headerName: 'Product Name', width: 230, sortable: false },
+    { field: 'sku', headerName: 'SKU', width: 170, sortable: false },
+    { field: 'price', headerName: 'Price', width: 140 },
+    { field: 'stock_quantity', headerName: 'Stock', width: 120 },
     {
       field: 'image',
       headerName: 'Image',
-      width: 90,
+      width: 120,
       sortable: false,
       renderCell: params => (
         <Box display={'flex'} alignItems={'center'} height={'100%'}>
@@ -103,7 +105,7 @@ const Dashboard = () => {
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 120,
+      width: 150,
       sortable: false,
       renderCell: params => (
         <Box>
@@ -129,46 +131,45 @@ const Dashboard = () => {
   ]
 
   return (
-    <Container>
-      <Box width={'100%'} p={2}>
-        <Box display={'flex'} justifyContent={'end'} mb={2} gap={2}>
-          <TextField
-            variant='outlined'
-            placeholder='Search...'
-            value={searchText}
-            onChange={e => setSearchText(e.target.value)}
-            size='small'
-            sx={{ width: 300 }}
-          />
-          <Button variant='contained' color='primary' onClick={handleOpen}>
-            Add
-          </Button>
-        </Box>
-        <DataGrid
-          disableColumnMenu
-          getRowId={row => row?.id}
-          rows={filteredProducts || []}
-          columns={columns}
-          rowCount={filteredProducts?.length}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                page: page,
-                pageSize: pageSize
-              }
-            }
-          }}
-          onPaginationModelChange={newPageSize => {
-            setPageSize(newPageSize.pageSize)
-            setPage(newPageSize.page)
-          }}
-          rowsPerPageOptions={[5, 10, 20]}
-          disableSelectionOnClick
-          disableRowSelectionOnClick
+    <Box>
+      <Box display={'flex'} justifyContent={'end'} flexWrap={'wrap'} py={3} gap={1}>
+        <TextField
+          variant='outlined'
+          placeholder='Search...'
+          value={searchText}
+          onChange={e => setSearchText(e.target.value)}
+          size='small'
+          sx={{ width: 300 }}
         />
+        <Button variant='contained' color='primary' onClick={handleOpen}>
+          {strings.add}
+        </Button>
       </Box>
+      <DataGrid
+        sx={styles.dataGrid}
+        disableColumnMenu
+        getRowId={row => row?.id}
+        rows={filteredProducts || []}
+        columns={columns}
+        rowCount={filteredProducts?.length}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              page: page,
+              pageSize: pageSize
+            }
+          }
+        }}
+        onPaginationModelChange={newPageSize => {
+          setPageSize(newPageSize.pageSize)
+          setPage(newPageSize.page)
+        }}
+        rowsPerPageOptions={[5, 10, 20]}
+        disableSelectionOnClick
+        disableRowSelectionOnClick
+      />
       <ProductModal open={open} editData={editData} onClose={handleCloseDialog} onSave={handleSave} />
-    </Container>
+    </Box>
   )
 }
 

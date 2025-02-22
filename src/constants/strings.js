@@ -5,6 +5,11 @@ export const strings = {
   logout: 'Logout',
   viewProfile: 'View Profile',
   changePassword: 'Change Password',
+  products: 'Products',
+  orders: 'Orders',
+  charts: 'Chart',
+  add: 'Add',
+  salesAnalytics: 'Sales Analytics',
 
   // ** Login
   submit: 'Submit',
