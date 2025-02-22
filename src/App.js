@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+// ** React Imports
+import React from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
-function App() {
+// ** Constant Imports
+import { routes } from './constants/routes'
+
+// ** Components Imports
+import Navbar from './components/Navbar/Navbar'
+import PrivateRoute from './components/PrivateRoute/PrivateRoute'
+import PublicRoute from './components/PublicRoute/PublicRoute'
+
+// ** Pages Imports
+import Login from './pages/Login/Login'
+import Dashboard from './pages/Dashboard'
+
+// ** Styles Imports
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+const App = () => {
+  // ** Vars
+  const location = useLocation()
+
+  // ** Conditionally render Navbar if the path is not "/login"
+  const shouldShowNavbar = location.pathname !== '/login'
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      {shouldShowNavbar && <Navbar />} {/* Show Navbar if not on the login page */}
+      <Routes>
+        <Route
+          path={routes.dashboard}
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={routes.login}
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+      </Routes>
+    </>
+  )
 }
 
-export default App;
+export default App
